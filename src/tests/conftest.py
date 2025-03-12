@@ -1,32 +1,35 @@
 import pytest
+
 from playwright.sync_api import sync_playwright
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
 
 from src.config.framework import Framework
-from src.config.config import Config
 from src.pages.page import Page
 from src.pages.page_factory import PageFactory
+from src.browsers import Browser, get_browser
 
 
 def pytest_addoption(parser):
     parser.addoption("--framework", action="store", default=Framework.PLAYWRIGHT,
-                     choices=[Framework.PLAYWRIGHT, Framework.SELENIUM],
-                     help="Framework: playwright or selenium")
+                     help=f"Framework: {Framework.PLAYWRIGHT} or {Framework.SELENIUM}")
+    parser.addoption("--browser", action="store", default=Browser.CHROME,
+                     help=f"Browser: {Browser.CHROME}, {Browser.FIREFOX}, or {Browser.MSEDGE}")
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def framework(request):
     return request.config.getoption("--framework")
 
 
-@pytest.fixture
-def pages(framework):
+@pytest.fixture(scope="function")
+def browser(request):
+    return request.config.getoption("--browser")
+
+
+@pytest.fixture(scope="function")
+def pages(framework, browser):
     if framework == Framework.PLAYWRIGHT:
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=Config.HEADLESS)
+            browser = get_browser(framework, browser)(p)
             page = browser.new_page()
             pages = {
                 Page.LOGIN: PageFactory.create_page(Page.LOGIN, page, framework),
@@ -37,14 +40,7 @@ def pages(framework):
             yield pages
             browser.close()
     elif framework == Framework.SELENIUM:
-        options = Options()
-        options.headless = Config.HEADLESS
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-gpu")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--window-size=1920,1080")
-        options.add_argument("--disable-extensions")
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+        driver = get_browser(framework, browser)()
         driver.implicitly_wait(5)
         pages = {
             Page.LOGIN: PageFactory.create_page(Page.LOGIN, driver, framework),

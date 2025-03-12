@@ -2,7 +2,8 @@ import argparse
 import sys
 import pytest
 
-from src.config import Config, setup_logging
+from src.browsers import Browser
+from src.config import Config, setup_logging, Framework
 from src.reports import Reporters
 
 logger = setup_logging()
@@ -10,14 +11,38 @@ logger = setup_logging()
 
 def main():
     parser = argparse.ArgumentParser(description="Website Tester Runner")
-    parser.add_argument("--framework", choices=["playwright", "selenium"], default="playwright")
-    parser.add_argument("--browser", choices=["chrome", "firefox", "edge"], default="chrome",
-                        help="Browser: chrome, firefox, or edge")
-    parser.add_argument("--report", choices=["allure", "html", "pdf"], default="allure")
-    parser.add_argument("--tests", default="src/tests")
-    parser.add_argument("--retries", default="3")
-    parser.add_argument("--numprocesses", type=int, default=1,
-                        help="Number of parallel processes (use 'auto' for CPU count)")
+    parser.add_argument(
+        "--framework",
+        choices=[Framework.PLAYWRIGHT, Framework.SELENIUM],
+        default=Framework.PLAYWRIGHT,
+        help=f"Framework: {Framework.PLAYWRIGHT} or {Framework.SELENIUM}"
+    )
+    parser.add_argument(
+        "--browser",
+        choices=[Browser.CHROME, Browser.FIREFOX, Browser.MSEDGE],
+        default=Browser.CHROME,
+        help=f"Browser: {Browser.CHROME}, {Browser.FIREFOX}, or {Browser.MSEDGE}"
+    )
+    parser.add_argument(
+        "--report",
+        choices=[Reporters.ALLURE, Reporters.HTML],
+        default=Reporters.ALLURE,
+        help=f"Reporter: {Reporters.ALLURE} or {Reporters.HTML}"
+    )
+    parser.add_argument(
+        "--tests",
+        default="src/tests"
+    )
+    parser.add_argument(
+        "--retries",
+        default="3"
+    )
+    parser.add_argument(
+        "--numprocesses",
+        type=int,
+        default=1,
+        help="Number of parallel processes (use 'auto' for CPU count)"
+    )
 
     args, unknown = parser.parse_known_args()
 
