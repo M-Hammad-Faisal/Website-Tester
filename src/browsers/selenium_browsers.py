@@ -21,23 +21,24 @@ def get_chrome():
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-extensions")
+    options.add_argument("--headless") if Config.HEADLESS else None
     return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()), options=options)
 
 
 def get_firefox():
     options = FirefoxOptions()
-    options.headless = Config.HEADLESS
     options.add_argument("--width=1920")
     options.add_argument("--height=1080")
+    options.add_argument("--headless") if Config.HEADLESS else None
     return webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=options)
 
 
 def get_ms_edge():
     options = EdgeOptions()
-    options.headless = Config.HEADLESS
     options.add_argument("--window-size=1920,1080")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-extensions")
+    options.add_argument("--headless") if Config.HEADLESS else None
     return webdriver.Edge(service=EdgeService(EdgeChromiumDriverManager().install()), options=options)
