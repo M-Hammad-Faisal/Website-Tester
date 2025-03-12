@@ -1,0 +1,67 @@
+name: Website Tester
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  lint-and-format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Black (check only)
+        run: black --check .
+
+      - name: Run Flake8
+        run: flake8 .
+
+  test:
+    needs: lint-and-format
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        framework: [ playwright, selenium ]
+        browser: [ chrome, firefox, edge ]
+      fail-fast: false
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          playwright install
+          playwright install-deps
+
+      - name: Run tests
+        run: |
+          python -m src.runners.runner --framework=${{ matrix.framework }} --test-browser=${{ matrix.browser }} --numprocesses=2 --report=allure
+        timeout-minutes: 10
+
+      - name: Upload Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ matrix.framework }}-${{ matrix.browser }}
+          path: allure-results/
