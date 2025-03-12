@@ -94,6 +94,8 @@ across all frameworks and browsers in parallel.
 
 ### Sample Report
 
+![Sample Allure Report](./screenshots/allure-report.png?raw=true "Playwright | Chrome")
+
 Generate a report and view it locally:
 
    ```bash
