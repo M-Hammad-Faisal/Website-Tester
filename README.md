@@ -14,6 +14,7 @@ reliability, and performance.
 - **Page Object Model**: Clean, maintainable design with a factory pattern for page abstraction.
 - **Allure Reporting**: Detailed, visually appealing test reports with screenshots.
 - **Logging**: Execution details logged to `logs/test_run.log` for debugging and traceability.
+- **Linting & Formatting**: Enforces code quality with Flake8 and Black.
 - **CI/CD**: GitHub Actions workflow for automated testing across frameworks and browsers.
 
 ## Project Structure
@@ -53,7 +54,14 @@ reliability, and performance.
    playwright install firefox
    playwright install msedge
    ```
-4. **Run tests**:
+
+4. Format and Lint Code:
+   ```bash
+   black .            # Format all Python files
+   flake8 .           # Check for linting issues
+   ```
+
+5. **Run tests**:
    ```bash
    # Selenium with Firefox, 4 parallel processes
    python -m src.runners.runner --framework=selenium --browser=firefox --numprocesses=4 --report=allure
@@ -80,7 +88,8 @@ reliability, and performance.
 
 ## CI/CD
 
-Automated testing runs on every push or pull request via GitHub Actions. See the (workflow)[https://github.com/M-Hammad-Faisal/Website-Tester/.github/workflows/ci.yml] for details. Tests execute
+Automated testing runs on every push or pull request via GitHub Actions. See the (
+workflow)[https://github.com/M-Hammad-Faisal/Website-Tester/.github/workflows/ci.yml] for details. Tests execute
 across all frameworks and browsers in parallel.
 
 ### Sample Report
@@ -97,7 +106,7 @@ Generate a report and view it locally:
 
 - Python: 3.12+
 - Dependencies: Listed in requirements.txt
-    - pytest, playwright, selenium, webdriver-manager, allure-pytest, pytest-retry, pytest-xdist
+    - pytest, playwright, selenium, webdriver-manager, allure-pytest, pytest-retry, pytest-xdist, flake8, black
 
 ## Usage Examples
 
@@ -119,12 +128,15 @@ Generate a report and view it locally:
    ```
 
 ## Development Notes
+
 - Parallel Execution: Use --numprocesses to leverage pytest-xdist. Set to auto to use all CPU cores.
 - Logging: Logs are stored in logs/ for each run, timestamped with execution details.
 - Extensibility: Add new browsers (e.g., WebKit) or tests by updating runner.py and page objects.
 
 ## Contributing
+
 Feel free to fork, submit PRs, or raise issues for enhancements!
 
 ## License
+
 MIT License - free to use and modify.
