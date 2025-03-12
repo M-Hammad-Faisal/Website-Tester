@@ -35,9 +35,13 @@ jobs:
       matrix:
         framework: [ playwright, selenium ]
         browser: [ chrome, firefox, edge ]
+      fail-fast: false
+    timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -53,6 +57,7 @@ jobs:
       - name: Run tests
         run: |
           python -m src.runners.runner --framework=${{ matrix.framework }} --test-browser=${{ matrix.browser }} --numprocesses=2 --report=allure
+        timeout-minutes: 10
 
       - name: Upload Allure results
         if: always()
