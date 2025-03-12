@@ -1,4 +1,4 @@
 class Browser:
-    MSEDGE = "msedge"
+    MSEDGE = "edge"
     CHROME = "chrome"
     FIREFOX = "firefox"

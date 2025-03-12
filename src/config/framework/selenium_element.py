@@ -1,4 +1,3 @@
-from selenium.common import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from typing import List, Any
@@ -27,6 +26,7 @@ class SeleniumElement(Element):
 
     def select_option(self, locator: tuple[str, str], value: str):
         from selenium.webdriver.support.ui import Select
+
         Select(self.context.find_element(*locator)).select_by_value(value)
 
     def get_text(self, locator: tuple[str, str]) -> str:
@@ -42,7 +42,7 @@ class SeleniumElement(Element):
     def get_all(self, locator: tuple[str, str]) -> List[Any]:
         return self.context.find_elements(*locator)
 
-    def get_child(self, parent_locator: tuple[str, str], child_locator: tuple) -> 'Element':
+    def get_child(self, parent_locator: tuple[str, str], child_locator: tuple) -> "Element":
         parent = self.context.find_element(*parent_locator)
         child = parent.find_element(*child_locator)
         return SeleniumElement(child)

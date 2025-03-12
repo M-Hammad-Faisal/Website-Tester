@@ -21,8 +21,12 @@ class TestLogout:
 
     @allure.title("Logout from Checkout Step One")
     def test_logout_from_checkout_step_one(self, pages, login_as_standard_user):
-        inventory_page, cart_page, checkout_page, login_page = pages["inventory"], pages["cart"], pages["checkout"], \
-            pages["login"]
+        inventory_page, cart_page, checkout_page, login_page = (
+            pages["inventory"],
+            pages["cart"],
+            pages["checkout"],
+            pages["login"],
+        )
         inventory_page.add_first_item_to_cart()
         cart_page.navigate()
         cart_page.checkout()
@@ -37,7 +41,7 @@ class TestLogout:
 
     @allure.title("Logout Does Not Reset Cart")
     def test_logout_does_not_reset_cart(self, pages, login_as_standard_user):
-        inventory_page, cart_page, login_page = pages["inventory"], pages["cart"], pages["login"]
+        inventory_page, login_page = pages["inventory"], pages["login"]
         inventory_page.add_first_item_to_cart()
         assert inventory_page.get_cart_count() == "1", "Item not added"
         inventory_page.logout()

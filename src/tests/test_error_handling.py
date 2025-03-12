@@ -1,5 +1,5 @@
-import pytest
 import allure
+
 
 @allure.feature("Error Handling")
 class TestErrorHandling:

@@ -1,5 +1,5 @@
-import pytest
 import allure
+
 
 @allure.feature("Item Details")
 class TestItemDetails:

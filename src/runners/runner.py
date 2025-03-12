@@ -15,33 +15,24 @@ def main():
         "--framework",
         choices=[Framework.PLAYWRIGHT, Framework.SELENIUM],
         default=Framework.PLAYWRIGHT,
-        help=f"Framework: {Framework.PLAYWRIGHT} or {Framework.SELENIUM}"
+        help=f"Framework: {Framework.PLAYWRIGHT} or {Framework.SELENIUM}",
     )
     parser.add_argument(
         "--browser",
         choices=[Browser.CHROME, Browser.FIREFOX, Browser.MSEDGE],
         default=Browser.CHROME,
-        help=f"Browser: {Browser.CHROME}, {Browser.FIREFOX}, or {Browser.MSEDGE}"
+        help=f"Browser: {Browser.CHROME}, {Browser.FIREFOX}, or {Browser.MSEDGE}",
     )
     parser.add_argument(
         "--report",
         choices=[Reporters.ALLURE, Reporters.HTML],
         default=Reporters.ALLURE,
-        help=f"Reporter: {Reporters.ALLURE} or {Reporters.HTML}"
+        help=f"Reporter: {Reporters.ALLURE} or {Reporters.HTML}",
     )
+    parser.add_argument("--tests", default="src/tests")
+    parser.add_argument("--retries", default="3")
     parser.add_argument(
-        "--tests",
-        default="src/tests"
-    )
-    parser.add_argument(
-        "--retries",
-        default="3"
-    )
-    parser.add_argument(
-        "--numprocesses",
-        type=int,
-        default=1,
-        help="Number of parallel processes (use 'auto' for CPU count)"
+        "--numprocesses", type=int, default=1, help="Number of parallel processes (use 'auto' for CPU count)"
     )
 
     args, unknown = parser.parse_known_args()
@@ -51,7 +42,8 @@ def main():
         f"--framework={args.framework}",
         f"--browser={args.browser}",
         "-v",
-        "--retries", args.retries
+        "--retries",
+        args.retries,
     ]
 
     if args.report == Reporters.ALLURE:

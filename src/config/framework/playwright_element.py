@@ -1,5 +1,5 @@
 from src.config.framework.element import Element
-from typing import List, Any, Union
+from typing import List, Any
 
 
 class PlaywrightElement(Element):
@@ -28,7 +28,7 @@ class PlaywrightElement(Element):
     def get_all(self, locator: str) -> List[Any]:
         return self.context.query_selector_all(locator)
 
-    def get_child(self, parent_locator: str, child_locator: str) -> 'Element':
+    def get_child(self, parent_locator: str, child_locator: str) -> "Element":
         parent = self.context.query_selector(parent_locator)
         child = parent.query_selector(child_locator)
         return PlaywrightElement(child)

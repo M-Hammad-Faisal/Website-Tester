@@ -12,7 +12,7 @@ class CartPage(BasePage):
     def remove_first_item(self):
         try:
             self.element.click(self.selectors.REMOVE_FIRST_ITEM)
-        except:
+        except Exception:
             pass
 
     def continue_shopping(self):

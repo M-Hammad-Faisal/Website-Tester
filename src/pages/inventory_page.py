@@ -1,5 +1,6 @@
 from src.pages.base_page import BasePage
 
+
 class InventoryPage(BasePage):
     def add_first_item_to_cart(self):
         self.element.click(self.selectors.FIRST_ITEM_ADD_BUTTON)
@@ -13,7 +14,7 @@ class InventoryPage(BasePage):
     def get_cart_count(self):
         try:
             return self.element.get_text(self.selectors.CART_BADGE)
-        except:
+        except Exception:
             return "0"
 
     def is_loaded(self):
@@ -64,4 +65,3 @@ class InventoryPage(BasePage):
 
     def back_to_inventory(self):
         self.element.click(self.selectors.BACK_TO_INVENTORY)
-

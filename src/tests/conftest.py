@@ -9,10 +9,18 @@ from src.browsers import Browser, get_browser
 
 
 def pytest_addoption(parser):
-    parser.addoption("--framework", action="store", default=Framework.PLAYWRIGHT,
-                     help=f"Framework: {Framework.PLAYWRIGHT} or {Framework.SELENIUM}")
-    parser.addoption("--browser", action="store", default=Browser.CHROME,
-                     help=f"Browser: {Browser.CHROME}, {Browser.FIREFOX}, or {Browser.MSEDGE}")
+    parser.addoption(
+        "--framework",
+        action="store",
+        default=Framework.PLAYWRIGHT,
+        help=f"Framework: {Framework.PLAYWRIGHT} or {Framework.SELENIUM}",
+    )
+    parser.addoption(
+        "--browser",
+        action="store",
+        default=Browser.CHROME,
+        help=f"Browser: {Browser.CHROME}, {Browser.FIREFOX}, or {Browser.MSEDGE}",
+    )
 
 
 @pytest.fixture(scope="function")
@@ -35,7 +43,7 @@ def pages(framework, browser):
                 Page.LOGIN: PageFactory.create_page(Page.LOGIN, page, framework),
                 Page.INVENTORY: PageFactory.create_page(Page.INVENTORY, page, framework),
                 Page.CART: PageFactory.create_page(Page.CART, page, framework),
-                Page.CHECKOUT: PageFactory.create_page(Page.CHECKOUT, page, framework)
+                Page.CHECKOUT: PageFactory.create_page(Page.CHECKOUT, page, framework),
             }
             yield pages
             browser.close()
@@ -46,7 +54,7 @@ def pages(framework, browser):
             Page.LOGIN: PageFactory.create_page(Page.LOGIN, driver, framework),
             Page.INVENTORY: PageFactory.create_page(Page.INVENTORY, driver, framework),
             Page.CART: PageFactory.create_page(Page.CART, driver, framework),
-            Page.CHECKOUT: PageFactory.create_page(Page.CHECKOUT, driver, framework)
+            Page.CHECKOUT: PageFactory.create_page(Page.CHECKOUT, driver, framework),
         }
         yield pages
         driver.quit()

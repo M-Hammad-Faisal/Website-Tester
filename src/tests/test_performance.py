@@ -1,4 +1,3 @@
-import pytest
 import allure
 import time
 
@@ -15,7 +14,7 @@ class TestPerformance:
 
     @allure.title("Measure Inventory Page Load Time After Login")
     def test_inventory_page_load_time(self, pages):
-        login_page, inventory_page = pages["login"], pages["inventory"]
+        login_page = pages["login"]
         login_page.navigate()
         start_time = time.time()
         login_page.login("standard_user", "secret_sauce")
@@ -41,7 +40,7 @@ class TestPerformance:
 
     @allure.title("Measure Checkout Step One Load Time")
     def test_checkout_step_one_load_time(self, pages, login_as_standard_user):
-        inventory_page, cart_page, checkout_page = pages["inventory"], pages["cart"], pages["checkout"]
+        inventory_page, cart_page = pages["inventory"], pages["cart"]
         inventory_page.add_first_item_to_cart()
         cart_page.navigate()
         start_time = time.time()
@@ -64,7 +63,7 @@ class TestPerformance:
 
     @allure.title("Measure Logout Response Time")
     def test_logout_response_time(self, pages, login_as_standard_user):
-        inventory_page, login_page = pages["inventory"], pages["login"]
+        inventory_page = pages["inventory"]
         start_time = time.time()
         inventory_page.logout()
         response_time = time.time() - start_time

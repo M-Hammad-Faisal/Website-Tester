@@ -39,7 +39,7 @@ class Element(ABC):
         pass
 
     @abstractmethod
-    def get_child(self, parent_locator: Union[str, tuple], child_locator: Union[str, tuple]) -> 'Element':
+    def get_child(self, parent_locator: Union[str, tuple], child_locator: Union[str, tuple]) -> "Element":
         pass
 
     @abstractmethod
@@ -62,10 +62,12 @@ class ElementFactory:
 
         if framework == Framework.PLAYWRIGHT:
             from src.config.framework import PlaywrightElement
+
             return PlaywrightElement(context)
 
         elif framework == Framework.SELENIUM:
             from src.config.framework import SeleniumElement
+
             return SeleniumElement(context)
 
         raise ValueError(f"Unsupported framework: {framework}")

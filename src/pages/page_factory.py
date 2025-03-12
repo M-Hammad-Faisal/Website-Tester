@@ -6,9 +6,16 @@ from src.config.framework.element import ElementFactory
 
 from src.pages.base_page import BasePage
 from src.pages.page import Page
-from .selectors import SeleniumLoginSelectors, SeleniumInventorySelectors, \
-    SeleniumCartSelectors, SeleniumCheckoutSelectors, PlaywrightLoginSelectors, \
-    PlaywrightInventorySelectors, PlaywrightCartSelectors, PlaywrightCheckoutSelector
+from .selectors import (
+    SeleniumLoginSelectors,
+    SeleniumInventorySelectors,
+    SeleniumCartSelectors,
+    SeleniumCheckoutSelectors,
+    PlaywrightLoginSelectors,
+    PlaywrightInventorySelectors,
+    PlaywrightCartSelectors,
+    PlaywrightCheckoutSelector,
+)
 
 from .login_page import LoginPage
 from .inventory_page import InventoryPage
@@ -28,14 +35,14 @@ class PageFactory:
                 Page.LOGIN: PlaywrightLoginSelectors,
                 Page.INVENTORY: PlaywrightInventorySelectors,
                 Page.CART: PlaywrightCartSelectors,
-                Page.CHECKOUT: PlaywrightCheckoutSelector
+                Page.CHECKOUT: PlaywrightCheckoutSelector,
             }
         elif framework == Framework.SELENIUM:
             selectors_map: [str, Enum] = {
                 Page.LOGIN: SeleniumLoginSelectors,
                 Page.INVENTORY: SeleniumInventorySelectors,
                 Page.CART: SeleniumCartSelectors,
-                Page.CHECKOUT: SeleniumCheckoutSelectors
+                Page.CHECKOUT: SeleniumCheckoutSelectors,
             }
         else:
             raise ValueError(f"Unsupported framework: {framework}")
@@ -44,7 +51,7 @@ class PageFactory:
             Page.LOGIN: LoginPage,
             Page.INVENTORY: InventoryPage,
             Page.CART: CartPage,
-            Page.CHECKOUT: CheckoutPage
+            Page.CHECKOUT: CheckoutPage,
         }
 
         if page_type not in page_map:
