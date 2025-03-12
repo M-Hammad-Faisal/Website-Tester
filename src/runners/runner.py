@@ -32,7 +32,7 @@ def main():
     parser.add_argument("--tests", default="src/tests")
     parser.add_argument("--retries", default="3")
     parser.add_argument(
-        "--numprocesses", type=int, default=1, help="Number of parallel processes (use 'auto' for CPU count)"
+        "--numprocesses", type=str, default=1, help="Number of parallel processes (use 'auto' for CPU count)"
     )
 
     args, unknown = parser.parse_known_args()
