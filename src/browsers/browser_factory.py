@@ -26,4 +26,7 @@ browsers = {
 
 
 def get_browser(framework: Framework, browser: Browser):
-    return browsers[framework][browser]
+    try:
+        return browsers.get(framework)[browser]
+    except KeyError:
+        raise ValueError(f"Invalid framework/browser combination: {framework}/{browser}")

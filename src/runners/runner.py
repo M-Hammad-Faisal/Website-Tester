@@ -18,7 +18,7 @@ def main():
         help=f"Framework: {Framework.PLAYWRIGHT} or {Framework.SELENIUM}",
     )
     parser.add_argument(
-        "--browser",
+        "--test-browser",
         choices=[Browser.CHROME, Browser.FIREFOX, Browser.MSEDGE],
         default=Browser.CHROME,
         help=f"Browser: {Browser.CHROME}, {Browser.FIREFOX}, or {Browser.MSEDGE}",
@@ -40,7 +40,7 @@ def main():
     pytest_args = [
         args.tests,
         f"--framework={args.framework}",
-        f"--browser={args.browser}",
+        f"--test-browser={args.test_browser}",
         "-v",
         "--retries",
         args.retries,

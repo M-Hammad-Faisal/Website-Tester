@@ -52,7 +52,7 @@ jobs:
 
       - name: Run tests
         run: |
-          python -m src.runners.runner --framework=${{ matrix.framework }} --browser=${{ matrix.browser }} --numprocesses=2 --report=allure
+          python -m src.runners.runner --framework=${{ matrix.framework }} --test-browser=${{ matrix.browser }} --numprocesses=2 --report=allure
 
       - name: Upload Allure results
         if: always()

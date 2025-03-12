@@ -16,9 +16,10 @@ def pytest_addoption(parser):
         help=f"Framework: {Framework.PLAYWRIGHT} or {Framework.SELENIUM}",
     )
     parser.addoption(
-        "--browser",
+        "--test-browser",
         action="store",
         default=Browser.CHROME,
+        choices=[Browser.CHROME, Browser.FIREFOX, Browser.MSEDGE],
         help=f"Browser: {Browser.CHROME}, {Browser.FIREFOX}, or {Browser.MSEDGE}",
     )
 
@@ -30,15 +31,19 @@ def framework(request):
 
 @pytest.fixture(scope="function")
 def browser(request):
-    return request.config.getoption("--browser")
+    browser_value = request.config.getoption("--test-browser")
+    if not browser_value:
+        raise ValueError("No browser specified; use --test-browser option (e.g., --test-browser=chrome)")
+    return browser_value
 
 
 @pytest.fixture(scope="function")
 def pages(framework, browser):
     if framework == Framework.PLAYWRIGHT:
         with sync_playwright() as p:
-            browser = get_browser(framework, browser)(p)
-            page = browser.new_page()
+            print()
+            driver = get_browser(framework, browser)(p)
+            page = driver.new_page()
             pages = {
                 Page.LOGIN: PageFactory.create_page(Page.LOGIN, page, framework),
                 Page.INVENTORY: PageFactory.create_page(Page.INVENTORY, page, framework),
@@ -46,8 +51,9 @@ def pages(framework, browser):
                 Page.CHECKOUT: PageFactory.create_page(Page.CHECKOUT, page, framework),
             }
             yield pages
-            browser.close()
+            driver.close()
     elif framework == Framework.SELENIUM:
+        print(browser)
         driver = get_browser(framework, browser)()
         driver.implicitly_wait(5)
         pages = {
